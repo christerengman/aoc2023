@@ -15,9 +15,9 @@ ForEach-Object {
     }
     $rounds | Group-Object Color | ForEach-Object {
       [PSCustomObject]@{
-        Game = $game
+        Game  = $game
         Color = $_.Name
-        Max = ($_.Group | Measure-Object Count -Maximum).Maximum
+        Max   = ($_.Group | Measure-Object Count -Maximum).Maximum
       }
     }
   }
@@ -36,10 +36,9 @@ $d |
 Group-Object Game |
 ForEach-Object {
   [PSCustomObject]@{
-    Game = $_.Name
+    Game  = $_.Name
     Power = $_.Group | ForEach-Object { $power = 1 } { $power = $power * $_.Max } { $power }
   }
 } |
 Measure-Object Power -Sum |
 Select-Object Sum
-
