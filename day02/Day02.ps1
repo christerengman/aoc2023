@@ -1,3 +1,4 @@
+$d =
 Get-Content "$PSScriptRoot/input.txt" |
 ForEach-Object {
   if ($_ -match '^Game (\d+): (.*)$') {
@@ -20,9 +21,25 @@ ForEach-Object {
       }
     }
   }
-} |
+}
+
+# Part 1
+$d |
 Where-Object { ($_.Color -eq 'red' -and $_.Max -le 12) -or ($_.Color -eq 'green' -and $_.Max -le 13) -or ($_.Color -eq 'blue' -and $_.Max -le 14) } |
 Group-Object Game -NoElement |
 Where-Object { $_.Count -eq 3 } |
 Measure-Object Name -Sum |
 Select-Object Sum
+
+# Part 2
+$d |
+Group-Object Game |
+ForEach-Object {
+  [PSCustomObject]@{
+    Game = $_.Name
+    Power = $_.Group | ForEach-Object { $power = 1 } { $power = $power * $_.Max } { $power }
+  }
+} |
+Measure-Object Power -Sum |
+Select-Object Sum
+
